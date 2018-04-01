@@ -1,7 +1,6 @@
 # Личный проект «Пиксель хантер» [![Build status][travis-image]][travis-url]
 
 * Студент: [Юлька Долгун](https://up.htmlacademy.ru/ecmascript/4/user/42333).
-* Наставник: `Неизвестно`.
 
 ---
 
