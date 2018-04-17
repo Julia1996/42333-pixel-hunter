@@ -1,4 +1,4 @@
-import {assert} from 'chai';
+import assert from 'assert';
 
 describe(`Array`, () => {
   describe(`#indexOf()`, () => {

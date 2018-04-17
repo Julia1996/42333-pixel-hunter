@@ -1,32 +1,13 @@
-import getElementFromTemplate from './get-element-from-template';
-import rulesElement from './rules';
-import showScreen from './show-screen';
+import showScreen from './show-screen.js';
+import getRules from './rules.js';
+import GreetingView from './greeting-view.js';
 
-const greetignElement = getElementFromTemplate(`
-  <div class="greeting central--blur">
-    <div class="greeting__logo"><img src="img/logo_big.png" width="201" height="89" alt="Pixel Hunter"></div>
-    <h1 class="greeting__asterisk">*</h1>
-    <div class="greeting__challenge">
-      <h3>Лучшие художники-фотореалисты бросают&nbsp;тебе&nbsp;вызов!</h3>
-      <p>Правила игры просты.<br>
-        Нужно отличить рисунок&nbsp;от фотографии и сделать выбор.<br>
-        Задача кажется тривиальной, но не думай, что все так просто.<br>
-        Фотореализм обманчив и коварен.<br>
-        Помни, главное — смотреть очень внимательно.</p>
-    </div>
-    <div class="greeting__continue"><span><img src="img/arrow_right.svg" width="64" height="64" alt="Next"></span></div>
-  </div>
-  <footer class="footer">
-    <a href="https://htmlacademy.ru" class="social-link social-link--academy">HTML Academy</a>
-    <span class="footer__made-in">Сделано в <a href="https://htmlacademy.ru" class="footer__link">HTML Academy</a> &copy; 2016</span>
-    <div class="footer__social-links">
-      <a href="https://twitter.com/htmlacademy_ru" class="social-link  social-link--tw">Твиттер</a>
-      <a href="https://www.instagram.com/htmlacademy/" class="social-link  social-link--ins">Инстаграм</a>
-      <a href="https://www.facebook.com/htmlacademy" class="social-link  social-link--fb">Фэйсбук</a>
-      <a href="https://vk.com/htmlacademy" class="social-link  social-link--vk">Вконтакте</a>
-    </div>
-  </footer>`);
+export default () => {
+  const greeting = new GreetingView();
 
-greetignElement.querySelector(`.greeting__continue`).addEventListener(`click`, () => showScreen(rulesElement));
+  greeting.onContinueClick = function () {
+    showScreen(getRules());
+  };
 
-export default greetignElement;
+  return greeting.element;
+};
