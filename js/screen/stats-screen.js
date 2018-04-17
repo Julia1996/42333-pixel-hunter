@@ -10,8 +10,4 @@ export default class StatsScreen {
       showScreen(getGreeting());
     };
   }
-
-  init() {
-    showScreen(this.stats.element);
-  }
 }

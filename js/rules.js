@@ -6,8 +6,8 @@ import Application from './application';
 export default () => {
   const rules = new RulesView();
 
-  rules.onSubmitName = function () {
-    Application.showGame();
+  rules.onSubmitName = function (userName) {
+    Application.showGame(userName);
   };
 
   rules.onBackButtonClick = function () {

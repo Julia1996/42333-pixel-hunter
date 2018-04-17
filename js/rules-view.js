@@ -33,7 +33,8 @@ export default class RulesView extends AbstractView {
   onBackButtonClick() {}
 
   bind() {
-    this._element.querySelector(`.rules__input`).addEventListener(`input`, (event) => {
+    const nameInput = this._element.querySelector(`.rules__input`);
+    nameInput.addEventListener(`input`, (event) => {
       if (event.target.value) {
         this._element.querySelector(`.rules__button`).disabled = false;
       }
@@ -41,7 +42,7 @@ export default class RulesView extends AbstractView {
 
     this._element.querySelector(`.rules__form`).addEventListener(`submit`, (event) => {
       event.preventDefault();
-      this.onSubmitName();
+      this.onSubmitName(nameInput.value);
     });
 
     this._element.querySelector(`.back`).addEventListener(`click`, () => this.onBackButtonClick());
