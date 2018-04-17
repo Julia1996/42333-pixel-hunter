@@ -1,4 +1,4 @@
-import showScreen from './show-screen.js';
+import showCrossFade from './show-cross-fade';
 import getGreeting from './greeting.js';
 import IntroView from './intro-view.js';
 
@@ -9,7 +9,7 @@ export default class IntroScreen {
 
   init() {
     this.view.onAsteriskClick = function () {
-      showScreen(getGreeting());
+      showCrossFade(getGreeting());
     };
   }
 }
