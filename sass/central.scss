@@ -12,3 +12,25 @@
   display: flex;
   min-height: 740px;
 }
+
+.appear, .fade {
+  animation-name: fade;
+  animation-duration: 0.5s;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.appear {
+  animation-direction: reverse;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
