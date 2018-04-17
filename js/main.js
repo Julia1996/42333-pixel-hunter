@@ -1,4 +1,3 @@
-import showScreen from './show-screen';
-import introElement from './intro';
+import Application from './application.js';
 
-showScreen(introElement);
+Application.showWelcome();
