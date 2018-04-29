@@ -1,5 +1,5 @@
 import showScreen from '../show-screen.js';
-import Application from '../application';
+import Application from '../application.js';
 import Game1View from '../game-1-view.js';
 import Game2View from '../game-2-view.js';
 import Game3View from '../game-3-view.js';
@@ -31,7 +31,7 @@ export default class GameScreen {
       this._model.question = questionNumber;
       this.initNewLocation();
     } else {
-      Application.showStats(this._model.answers, this._model.lives);
+      Application.showStats(this._model.answers, this._model.lives, this._model.userName);
     }
   }
 

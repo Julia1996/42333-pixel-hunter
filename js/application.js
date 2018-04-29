@@ -5,6 +5,9 @@ import GameModel from './game-model';
 import showScreen from './show-screen';
 import Loader from './loader';
 
+const QUESTIONS_URL = `https://es.dump.academy/pixel-hunter/questions`;
+const STATS_URL = `https://es.dump.academy/pixel-hunter/stats/t42rhs8t4r`;
+
 const checkStatus = (response) => {
   if (response.ok) {
     return response;
@@ -58,7 +61,6 @@ const adaptServerData = (data) => {
         break;
     }
   });
-  console.log(questions);
   return questions;
 };
 
@@ -72,7 +74,8 @@ export default class Application {
   static showGame(userName) {
     const loader = new Loader();
     loader.start();
-    fetch(`https://es.dump.academy/pixel-hunter/questions`)
+
+    fetch(QUESTIONS_URL)
         .then(checkStatus)
         .then((response) => response.json())
         .then(adaptServerData)
@@ -85,9 +88,26 @@ export default class Application {
         .then(() => loader.stop());
   }
 
-  static showStats(answers, lives) {
-    const statistics = new StatsScreen(answers, lives);
-    showScreen(statistics.stats.element);
+  static showStats(answers, lives, userName) {
+    const loader = new Loader();
+    loader.start();
+
+    fetch(`${STATS_URL}-${userName}`, {
+      method: `POST`,
+      headers: {'Content-Type': `application/json`},
+      body: JSON.stringify({answers, lives}),
+      protocol: `http:`
+    })
+        .then(checkStatus)
+        .then(() => fetch(`${STATS_URL}-${userName}`))
+        .then(checkStatus)
+        .then((response) => response.json())
+        .then((stats) => {
+          const statistics = new StatsScreen(stats);
+          showScreen(statistics.stats.element);
+        })
+        .catch(Application.showError)
+        .then(() => loader.stop());
   }
 
   static showError(error) {
