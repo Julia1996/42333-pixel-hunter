@@ -77,7 +77,7 @@ export default class GameScreen {
           currentIsCorrect = (answer1.value === this._model.questions[this._model.question].image.answer);
           break;
         case `game-3`:
-          currentIsCorrect = (answer1 === this._model.questions[this._model.question].paintNumber);
+          currentIsCorrect = (answer1 === this._model.questions[this._model.question].correctNumber);
           break;
       }
 

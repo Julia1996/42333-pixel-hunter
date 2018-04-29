@@ -1,7 +1,5 @@
-import questions from './questions.js';
-
 export default class GameModel {
-  constructor(userName) {
+  constructor(userName, questions) {
     this.userName = userName;
     this.questions = questions;
     this.question = `question1`;

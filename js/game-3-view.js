@@ -12,7 +12,7 @@ export default class Game3View extends AbstractView {
   get template() {
     return `${getHeader(this._lives)}
     <div class="game">
-      <p class="game__task">Найдите рисунок среди изображений</p>
+      <p class="game__task">${this._question.question}</p>
       <form class="game__content  game__content--triple">
         ${this._question.images.map((image, i) => `<div class="game__option" data-num="${i + 1}">
           <img src="${image}" alt="Option 1" width="304" height="455">
