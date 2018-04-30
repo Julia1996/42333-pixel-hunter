@@ -16,6 +16,8 @@ const checkStatus = (response) => {
   }
 };
 
+let gameQuestions;
+
 const adaptServerData = (data) => {
   const questions = {};
   data.forEach((question, i) => {
@@ -64,28 +66,39 @@ const adaptServerData = (data) => {
   return questions;
 };
 
+const loadAllImages = (data) => {
+  const imagesUrls = [];
+  data.forEach((question) => question.answers.forEach((answer) => imagesUrls.push(answer.image.url)));
+  return imagesUrls.map((url) => new Promise((resolve, reject) => {
+    const imageElement = document.createElement(`img`);
+    imageElement.addEventListener(`load`, resolve);
+    imageElement.addEventListener(`error`, reject);
+    imageElement.src = url;
+  }));
+};
+
 export default class Application {
 
   static showWelcome() {
     const welcomeScreen = new WelcomeScreen();
     showScreen(welcomeScreen.introScreen.view.element);
-  }
-
-  static showGame(userName) {
-    const loader = new Loader();
-    loader.start();
 
     fetch(QUESTIONS_URL)
         .then(checkStatus)
         .then((response) => response.json())
-        .then(adaptServerData)
-        .then((questions) => {
-          const model = new GameModel(userName, questions);
-          const gameScreen = new GameScreen(model);
-          gameScreen.startGame();
+        .then((data) => {
+          gameQuestions = adaptServerData(data);
+          return loadAllImages(data);
         })
-        .catch(Application.showError)
-        .then(() => loader.stop());
+        .then((promises) => Promise.all(promises))
+        .then(() => welcomeScreen.introScreen.showGreeting())
+        .catch(Application.showError);
+  }
+
+  static showGame(userName) {
+    const model = new GameModel(userName, gameQuestions);
+    const gameScreen = new GameScreen(model);
+    gameScreen.startGame();
   }
 
   static showStats(answers, lives, userName) {
