@@ -4,6 +4,8 @@ import StatsScreen from './screen/stats-screen';
 import GameModel from './game-model';
 import showScreen from './show-screen';
 import Loader from './loader';
+import showCrossFade from './show-cross-fade';
+import getGreeting from './greeting.js';
 
 const QUESTIONS_URL = `https://es.dump.academy/pixel-hunter/questions`;
 const STATS_URL = `https://es.dump.academy/pixel-hunter/stats/t42rhs8t4r`;
@@ -11,9 +13,8 @@ const STATS_URL = `https://es.dump.academy/pixel-hunter/stats/t42rhs8t4r`;
 const checkStatus = (response) => {
   if (response.ok) {
     return response;
-  } else {
-    throw new Error(`${response.status}: ${response.statusText}`);
   }
+  throw new Error(`${response.status}: ${response.statusText}`);
 };
 
 let gameQuestions;
@@ -79,7 +80,7 @@ const loadAllImages = (data) => {
 
 export default class Application {
 
-  static showWelcome() {
+  static showIntro() {
     const welcomeScreen = new WelcomeScreen();
     showScreen(welcomeScreen.introScreen.view.element);
 
@@ -91,8 +92,12 @@ export default class Application {
           return loadAllImages(data);
         })
         .then((promises) => Promise.all(promises))
-        .then(() => welcomeScreen.introScreen.showGreeting())
+        .then(() => Application.showGreeting())
         .catch(Application.showError);
+  }
+
+  static showGreeting() {
+    showCrossFade(getGreeting());
   }
 
   static showGame(userName) {
@@ -124,6 +129,7 @@ export default class Application {
   }
 
   static showError(error) {
+    console.error(error);
     const errorMessage = document.createElement(`p`);
     errorMessage.textContent = error.message;
     showScreen(errorMessage);

@@ -2,10 +2,11 @@ export default class Timer {
   constructor(time) {
     this.time = time;
     this._intervalId = setInterval(() => this.tick(), 1000);
+    this._timerElement = document.querySelector(`.game__timer`);
   }
 
   onTick() {
-    document.querySelector(`.game__timer`).textContent = this.time;
+    this._timerElement.textContent = this.time;
   }
 
   onTimeEnds() {}

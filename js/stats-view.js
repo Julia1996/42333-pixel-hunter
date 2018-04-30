@@ -1,16 +1,22 @@
 import AbstractView from './abstract-view.js';
 import getStatsBottom from './stats-bottom.js';
 
+const Time = {
+  SMALL_AMOUNT: 10,
+  BIG_AMOUNT: 20
+};
+
+const Points = {
+  BONUS_FOR_EACH_CORRECT_ANSWER: 100,
+  BONUS_FOR_EACH_LIFE: 50,
+  BONUS_FOR_EACH_FAST_ANSWER: 50,
+  PENALTY_FOR_EACH_SLOW_ANSWER: 50
+};
+
 export default class StatsView extends AbstractView {
   constructor(stats) {
     super();
     this._stats = stats.sort((a, b) => b.date - a.date);
-    this._POINTS_FOR_EACH_CORRECT_ANSWER = 100;
-    this._POINTS_FOR_EACH_LIFE = 50;
-    this._BONUS_FOR_EACH_FAST_ANSWER = 50;
-    this._PENALTY_FOR_EACH_SLOW_ANSWER = 50;
-    this._SMALL_TIME_AMOUNT = 10;
-    this._BIG_TIME_AMOUNT = 20;
   }
 
   get template() {
@@ -46,17 +52,17 @@ export default class StatsView extends AbstractView {
       }
       numberCorrectAnswers++;
 
-      if (answer.time < this._SMALL_TIME_AMOUNT) {
+      if (answer.time < Time.SMALL_AMOUNT) {
         numberFastAnswers++;
-      } else if (answer.time > this._BIG_TIME_AMOUNT) {
+      } else if (answer.time > Time.BIG_AMOUNT) {
         numberSlowAnswers--;
       }
     });
 
-    let total = numberCorrectAnswers * this._POINTS_FOR_EACH_CORRECT_ANSWER
-      + numberFastAnswers * this._BONUS_FOR_EACH_FAST_ANSWER
-      + numberSlowAnswers * this._PENALTY_FOR_EACH_SLOW_ANSWER
-      + result.lives * this._POINTS_FOR_EACH_LIFE;
+    let total = numberCorrectAnswers * Points.BONUS_FOR_EACH_CORRECT_ANSWER
+      + numberFastAnswers * Points.BONUS_FOR_EACH_FAST_ANSWER
+      + numberSlowAnswers * Points.PENALTY_FOR_EACH_SLOW_ANSWER
+      + result.lives * Points.BONUS_FOR_EACH_LIFE;
 
     return `<table class="result__table">
       <tr>
@@ -66,7 +72,7 @@ export default class StatsView extends AbstractView {
         </td>
         <td class="result__points">×&nbsp;100</td>
         <td class="result__total">
-          ${result.answers.length === 10 ? numberCorrectAnswers * this._POINTS_FOR_EACH_CORRECT_ANSWER : `fail`}
+          ${result.answers.length === 10 ? numberCorrectAnswers * Points.BONUS_FOR_EACH_CORRECT_ANSWER : `fail`}
         </td>
       </tr>
       ${result.answers.length === 10 ? `
@@ -75,21 +81,21 @@ export default class StatsView extends AbstractView {
           <td class="result__extra">Бонус за скорость:</td>
           <td class="result__extra">${numberFastAnswers}&nbsp;<span class="stats__result stats__result--fast"></span></td>
           <td class="result__points">×&nbsp;50</td>
-          <td class="result__total">${numberFastAnswers * this._BONUS_FOR_EACH_FAST_ANSWER}</td>
+          <td class="result__total">${numberFastAnswers * Points.BONUS_FOR_EACH_FAST_ANSWER}</td>
         </tr>
         <tr>
           <td></td>
           <td class="result__extra">Бонус за жизни:</td>
           <td class="result__extra">${result.lives}&nbsp;<span class="stats__result stats__result--alive"></span></td>
           <td class="result__points">×&nbsp;50</td>
-          <td class="result__total">${result.lives * this._POINTS_FOR_EACH_LIFE}</td>
+          <td class="result__total">${result.lives * Points.BONUS_FOR_EACH_LIFE}</td>
         </tr>
         <tr>
           <td></td>
           <td class="result__extra">Штраф за медлительность:</td>
           <td class="result__extra">${numberSlowAnswers}&nbsp;<span class="stats__result stats__result--slow"></span></td>
           <td class="result__points">×&nbsp;50</td>
-          <td class="result__total">${numberSlowAnswers * this._PENALTY_FOR_EACH_SLOW_ANSWER}</td>
+          <td class="result__total">${numberSlowAnswers * Points.PENALTY_FOR_EACH_SLOW_ANSWER}</td>
         </tr>
         <tr>
           <td colspan="5" class="result__total  result__total--final">${total}</td>
