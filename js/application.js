@@ -129,7 +129,6 @@ export default class Application {
   }
 
   static showError(error) {
-    console.error(error);
     const errorMessage = document.createElement(`p`);
     errorMessage.textContent = error.message;
     showScreen(errorMessage);
