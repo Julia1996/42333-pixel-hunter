@@ -12,4 +12,8 @@ export default class IntroScreen {
       showCrossFade(getGreeting());
     };
   }
+
+  showGreeting() {
+    showCrossFade(getGreeting());
+  }
 }
